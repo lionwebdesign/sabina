@@ -38,12 +38,12 @@ def takeCommand():
 
     try:
         print("Recognizing...")
-        query = r.recognize_google(audio, language='en-in')
+        query = r.recognize_google(audio, language='es-mx')
         print(f"User said: {query}\n")
 
     except Exception as e:
         # print(e)
-        print("Say that again please...")
+        print("Puede repetir por favor...")
         return "None"
     return query
 
@@ -72,13 +72,13 @@ if __name__ == "__main__":
             print(results)
             speak(results)
 
-        elif 'open youtube' in query:
+        elif 'abrir youtube' in query:
             webbrowser.open("youtube.com")
 
-        elif 'open google' in query:
+        elif 'abrir google' in query:
             webbrowser.open("google.com")
 
-        elif 'open stackoverflow' in query:
+        elif 'abrir stackoverflow' in query:
             webbrowser.open("stackoverflow.com")
 
         # elif 'play music' in query:
@@ -87,9 +87,13 @@ if __name__ == "__main__":
         #     print(songs)
         #     os.startfile(os.path.join(music_dir, songs[0]))
 
-        elif 'the time' in query:
+        elif 'me puedes dar la hora por favor' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"Sir, the time is {strTime}")
+            speak(f"Señor, la hora es {strTime}")
+
+        elif 'hasta luego' in query:
+            speak("De acuerdo señor, nos vemos más tarde")
+            break
 
         # elif 'open code' in query:
         #     codePhat = url('C:\Users\eadbox\AppData\Local\Programs\Microsoft VS Code\Code.exe')
