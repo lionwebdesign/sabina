@@ -103,7 +103,11 @@ if __name__ == "__main__":
             webbrowser.open("google.com")
 
         elif 'buscar en google' in query:
-            buscarEnGoogle()
+            while True:
+                buscarEnGoogle()
+                if 'dejar de buscar' in query:
+                    speak("Excelente, si desea buscar algo más hagamelo saber...")
+                    break
 
         elif 'abrir stackoverflow' in query:
             webbrowser.open("stackoverflow.com")
