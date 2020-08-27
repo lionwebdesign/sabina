@@ -46,8 +46,8 @@ def takeCommand():
 
     except Exception as e:
         # print(e)
-        speak(f"{userName} lo puede repetir por favor...")
-        print(f"{userName} lo puede repetir por favor...")
+        speak(f"{userName}, lo puede repetir por favor...?")
+        print(f"{userName}, lo puede repetir por favor...?")
         return "None"
     return query
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
             speak(f"Señor, la hora es {strTime}")
 
         elif 'hasta luego sabina' in query:
-            speak("De acuerdo señor, nos vemos más tarde")
+            speak(f"De acuerdo {userName}, nos vemos más tarde")
             break
 
         # elif 'open code' in query:
