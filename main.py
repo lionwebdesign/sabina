@@ -6,12 +6,12 @@ import webbrowser
 import os
 import smtplib
 
-engine = pyttsx3.init('sapi5')
-# engine = pyttsx3.init('espeak')
+# engine = pyttsx3.init('sapi5')
+engine = pyttsx3.init('espeak')
 voices = engine.getProperty('voices')
 
-engine.setProperty('voice', voices[1].id)
-# engine.setProperty('voice', voices[20].id)
+# engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[20].id)
 
 userName = input("Cual es tu nombre? ").lower()
 
@@ -33,7 +33,9 @@ def wishMe():
 
 
 def takeCommand():
+    sr.Microphone(device_index=1)
     r = sr.Recognizer()
+    r.energy_threshold = 5000
     with sr.Microphone() as source:
         print("Escuchando...")
         r.pause_threshold = 1
@@ -46,10 +48,28 @@ def takeCommand():
 
     except Exception as e:
         # print(e)
-        speak(f"{userName}, lo puede repetir por favor...?")
-        print(f"{userName}, lo puede repetir por favor...?")
+        speak(f"Lo siento {userName}, no enetendi, lo puede repetir por favor...?")
+        print(f"Lo siento {userName}, no enetendi, lo puede repetir por favor...?")
         return "None"
     return query
+
+def buscarEnGoogle():
+    sr.Microphone(device_index=1)
+    r = sr.Recognizer()
+    r.energy_threshold = 5000
+    with sr.Microphone() as source:
+        speak(f"Que deseas buscar {userName}...?")
+        print(f"Que deseas buscar {userName}...?")
+        audio = r.listen(source)
+        try:
+            query = r.recognize_google(audio, language='es-mx')
+            print("Tu dijiste : {}".format(query))
+            url = 'https://google.com/search?q='
+            searchUrl = url + query
+            webbrowser.open(searchUrl)
+        except:
+            speak("Dijiste algo? No entendi, lo puede repetir? ")
+            print("Dijiste algo? No entendi, lo puede repetir? ")
 
 
 def sendEmail(to, content):
@@ -81,6 +101,9 @@ if __name__ == "__main__":
 
         elif 'abrir google' in query:
             webbrowser.open("google.com")
+
+        elif 'buscar en google' in query:
+            buscarEnGoogle()
 
         elif 'abrir stackoverflow' in query:
             webbrowser.open("stackoverflow.com")
