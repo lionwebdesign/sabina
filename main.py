@@ -13,14 +13,14 @@ voices = engine.getProperty('voices')
 # engine.setProperty('voice', voices[1].id)
 engine.setProperty('voice', voices[20].id)
 
-userName = input("Cual es tu nombre? ").lower()
+userName = input("Cual es tu nombre? ").lower()#Si no reconoce al usuario
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
 
-def wishMe():
+def saludo():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
         speak(f"Buenos días {userName}!")
@@ -29,10 +29,11 @@ def wishMe():
     else:
         speak(f"Buenas noches {userName}!")
 
-    speak("Mi nombre es Sabina, dime ¿cómo puedo ayudarte?")
+    speak("¿Cómo puedo ayudarte?")#Si reconoce al usuario
+    # speak("Mi nombre es Sabina, dime ¿cómo puedo ayudarte?")#Si no reconoce al usuario
 
 
-def takeCommand():
+def comando():
     sr.Microphone(device_index=1)
     r = sr.Recognizer()
     r.energy_threshold = 5000
@@ -42,9 +43,9 @@ def takeCommand():
         audio = r.listen(source)
 
     try:
-        print("Recognizing...")
+        print("Compilando...")
         query = r.recognize_google(audio, language='es-mx')
-        print(f"User said: {query}\n")
+        print(f"{userName}: {query}\n")
 
     except Exception as e:
         # print(e)
@@ -82,17 +83,17 @@ def sendEmail(to, content):
 
 
 if __name__ == "__main__":
-    wishMe()
+    saludo()
     while True:
         # if 1:
-        query = takeCommand().lower()
+        query = comando().lower()
 
         # Logic for executing task based on query
         if 'wikipedia' in query:
-            speak('Searching Wikipedia...')
+            speak('Buscando en Wikipedia...')
             query = query.replace("Wikipedia", "")
             results = wikipedia.summary(query, sentences=2)
-            speak("According to Wikipedia")
+            speak("De acuerdo con Wikipedia")
             print(results)
             speak(results)
 
@@ -103,11 +104,7 @@ if __name__ == "__main__":
             webbrowser.open("google.com")
 
         elif 'buscar en google' in query:
-            while True:
-                buscarEnGoogle()
-                if 'dejar de buscar' in query:
-                    speak("Excelente, si desea buscar algo más hagamelo saber...")
-                    break
+            buscarEnGoogle()
 
         elif 'abrir stackoverflow' in query:
             webbrowser.open("stackoverflow.com")
@@ -118,9 +115,9 @@ if __name__ == "__main__":
         #     print(songs)
         #     os.startfile(os.path.join(music_dir, songs[0]))
 
-        elif 'me puedes dar la hora por favor' in query:
+        elif 'que hora es' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"Señor, la hora es {strTime}")
+            speak(f"{userName}, la hora es {strTime}")
 
         elif 'hasta luego sabina' in query:
             speak(f"De acuerdo {userName}, nos vemos más tarde")
@@ -130,13 +127,13 @@ if __name__ == "__main__":
         #     codePhat = url('C:\Users\eadbox\AppData\Local\Programs\Microsoft VS Code\Code.exe')
         #     os.startfile(codePhat)
 
-        elif 'email to harry' in query:
+        elif 'email para' in query:
             try:
-                speak("What should I say?")
-                content = takeCommand()
+                speak("Qué deberia decir?")
+                content = comando()
                 to = "ruben.vim@yahoo.com"
                 sendEmail(to, content)
-                speak("Email has been sent!")
+                speak("El email a sido enviado!")
             except Exception as e:
                 print(e)
-                speak("Sorry Sir. Im not able to send this email")
+                speak(f"Lo siento {userName}. No puedo enviar este email")
