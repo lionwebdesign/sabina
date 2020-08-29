@@ -34,9 +34,7 @@ def saludo():
 
 
 def comando():
-    sr.Microphone(device_index=1)
     r = sr.Recognizer()
-    r.energy_threshold = 5000
     with sr.Microphone() as source:
         print("Escuchando...")
         r.pause_threshold = 1
@@ -55,9 +53,7 @@ def comando():
     return query
 
 def buscarEnGoogle():
-    sr.Microphone(device_index=1)
     r = sr.Recognizer()
-    r.energy_threshold = 5000
     with sr.Microphone() as source:
         speak(f"Que deseas buscar {userName}...?")
         print(f"Que deseas buscar {userName}...?")
@@ -88,26 +84,32 @@ if __name__ == "__main__":
         # if 1:
         query = comando().lower()
 
-        # Logic for executing task based on query
-        if 'wikipedia' in query:
-            speak('Buscando en Wikipedia...')
-            query = query.replace("Wikipedia", "")
-            results = wikipedia.summary(query, sentences=2)
-            speak("De acuerdo con Wikipedia")
-            print(results)
-            speak(results)
-
-        elif 'abrir youtube' in query:
-            webbrowser.open("youtube.com")
-
-        elif 'abrir google' in query:
-            webbrowser.open("google.com")
-
-        elif 'buscar en google' in query:
+        # Logica para ejecutar tareas basadas en query
+        if 'buscar en google' in query:
             buscarEnGoogle()
 
-        elif 'abrir stackoverflow' in query:
-            webbrowser.open("stackoverflow.com")
+        elif 'qué hora es' in query:
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+            speak(f"{userName}, la hora es {strTime}")
+            print(strTime)
+
+
+
+        # ----- Bloque de tareas escluidas para futura mejoria -----
+        
+        # if 'wikipedia' in query:
+        #     speak('Buscando en Wikipedia...')
+        #     query = query.replace("Wikipedia", "")
+        #     results = wikipedia.summary(query, sentences=2)
+        #     speak("De acuerdo con Wikipedia")
+        #     print(results)
+        #     speak(results)
+
+        # elif 'abrir youtube' in query:
+        #     webbrowser.open("youtube.com")
+
+        # elif 'abrir stackoverflow' in query:
+        #     webbrowser.open("stackoverflow.com")
 
         # elif 'play music' in query:
         #     music_dir = 'C:\Users\eadbox\Music\Projetos de Vídeo'
@@ -115,25 +117,23 @@ if __name__ == "__main__":
         #     print(songs)
         #     os.startfile(os.path.join(music_dir, songs[0]))
 
-        elif 'que hora es' in query:
-            strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"{userName}, la hora es {strTime}")
-
-        elif 'hasta luego sabina' in query:
-            speak(f"De acuerdo {userName}, nos vemos más tarde")
-            break
-
         # elif 'open code' in query:
         #     codePhat = url('C:\Users\eadbox\AppData\Local\Programs\Microsoft VS Code\Code.exe')
         #     os.startfile(codePhat)
 
-        elif 'email para' in query:
-            try:
-                speak("Qué deberia decir?")
-                content = comando()
-                to = "ruben.vim@yahoo.com"
-                sendEmail(to, content)
-                speak("El email a sido enviado!")
-            except Exception as e:
-                print(e)
-                speak(f"Lo siento {userName}. No puedo enviar este email")
+        # elif 'email para' in query:
+        #     try:
+        #         speak("Qué deberia decir?")
+        #         content = comando()
+        #         to = "ruben.vim@yahoo.com"
+        #         sendEmail(to, content)
+        #         speak("El email a sido enviado!")
+        #     except Exception as e:
+        #         print(e)
+        #         speak(f"Lo siento {userName}. No puedo enviar este email")
+
+        # ----- Fin de bloque de tareas escluidas -----
+
+        elif 'hasta luego sabina' in query:
+            speak(f"De acuerdo {userName}, nos vemos más tarde")
+            break     
